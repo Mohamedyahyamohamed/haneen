@@ -31,7 +31,7 @@ else:
 if img_base64 is None:
     st.error(f"⚠️ مفيش أي صورة اسمها pic خالص في الفولدر ده: {current_dir}")
 else:
-    # --- كود HTML و CSS و JS (النسخة الكريتف) ---
+    # --- كود HTML و CSS و JS ---
     html_code = f"""
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
@@ -108,7 +108,7 @@ else:
                 font-weight: bold;
                 color: white;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                transition: all 0.3s ease;
+                transition: background 0.3s ease, transform 0.1s ease, left 0.2s ease, top 0.2s ease;
                 white-space: nowrap;
             }}
 
@@ -116,6 +116,7 @@ else:
                 background: linear-gradient(45deg, #4CAF50, #81C784);
                 margin-left: 20px;
                 z-index: 20;
+                position: relative;
             }}
 
             #btn-yes:hover {{
@@ -129,6 +130,7 @@ else:
                 left: 60%;
                 top: 40%;
                 z-index: 20;
+                transition: background 0.3s ease; 
             }}
 
             #success-container {{
@@ -178,55 +180,69 @@ else:
             <div class="question-title">أنا عندي سؤال مهم جداً...</div>
             <div class="question-subtitle">تتجوزيني وتكملي معايا الباقي من عمري؟ 💍❤️</div>
             
-            <div class="buttons-area">
+            <div class="buttons-area" id="detection-area">
                 <button class="btn" id="btn-yes" onclick="sayYes()">أيوة طبعاً!</button>
-                <button class="btn" id="btn-no" onmouseover="moveButton()" ontouchstart="moveButton()">لأ</button>
+                <button class="btn" id="btn-no">الللأ</button>
             </div>
         </div>
 
         <div id="success-container">
             <div class="love-text">بحبك يا أحلى حاجة في حياتي! ❤️</div>
-            <div style="font-size: 18px; color: #555;">ربنا يخليكي ليا وميحرمنيش منك أبداً</div>
+            <div style="font-size: 18px; color: #555;"> ربنا يخليكي ليا وميحرمنيش منك أبداً يحبيبي يارب </div>
             <img src="data:image/jpeg;base64,{img_base64}" alt="صورتنا الحلوة">
         </div>
 
         <script>
             const noBtn = document.getElementById('btn-no');
+            const detectionArea = document.getElementById('detection-area');
             
-            // 👇 هنا كترتلك الجمل وخليتها بتضحك جداً
+            // 👇 لستة الجمل الكوميدية الجديدة
             const funnyTexts = [
                 'لأ', 
                 'متهزريش!', 
                 'فكرى تاني!', 
-                'قولي أيوة أحسنلك', 
-                'مفيش هروب!',
-                'الزرار ده بايظ على فكرة',
-                'مش هتلحقيني',
-                'طب عشان خاطري؟',
-                'هتفضلي تجري ورايا كتير؟',
-                'أنا صبور جداً عادي',
-                'دوسى أيوة وريحي نفسك',
-                'يا بنتي اتهدي بقى',
+                'يا بنتي قولي أيوة ونخلص', 
+                'مفيش هروب على فكرة',
+                'عناد بعناد بقى', 
+                'طب بصي في عيني كده؟', 
+                'وربنا ما هسيبك', 
+                'كده؟ طب مفيش شاورما', 
+                'صوابعك هتوجعك',
+                'الماوس بيشتكي منك ارحميه',
+                'أنا وراكي والزمن طويل',
+                'ده أنا حتى كيوت',
+                'هجيبلك شوكولاتة طيب؟',
+                'بقولك إيه.. أيوة يعني أيوة',
+                'يا ستي اتهدي بقى',
+                'مفيش زرار هنا روحي هناك',
+                'طب هعيط أنا دلوقتي',
                 'عاجبك الماوس وهو بيجري؟',
-                'طب والله بحبك',
-                'مفيش اختيارات تانية',
-                'هتتجوزيني يعني هتتجوزيني',
+                'هتروحي مني فين؟',
                 'خلاص بقى خليكي عاقلة',
-                'ايدي وجعتني من الجري',
-                'هعد لحد تلاتة...',
+                'دوسى الأخضر وريحي نفسك',
+                'أنا صبور جداً عادي',
+                'يا بختي بعنادك',
                 'برضه مش هتدوسي!'
             ];
             let textIndex = 0;
 
             function moveButton() {{
-                const area = document.querySelector('.buttons-area');
-                const areaRect = area.getBoundingClientRect();
+                const areaRect = detectionArea.getBoundingClientRect();
                 
-                const maxX = areaRect.width - noBtn.offsetWidth;
-                const maxY = areaRect.height - noBtn.offsetHeight;
+                const btnWidth = noBtn.offsetWidth;
+                const btnHeight = noBtn.offsetHeight;
+
+                const maxX = areaRect.width - btnWidth;
+                const maxY = areaRect.height - btnHeight;
                 
-                const randomX = Math.floor(Math.random() * maxX);
-                const randomY = Math.floor(Math.random() * maxY);
+                let randomX, randomY;
+                const currentX = parseFloat(noBtn.style.left) || (areaRect.width * 0.6);
+                const currentY = parseFloat(noBtn.style.top) || (areaRect.height * 0.4);
+
+                do {{
+                    randomX = Math.floor(Math.random() * maxX);
+                    randomY = Math.floor(Math.random() * maxY);
+                }} while (Math.abs(randomX - currentX) < 100 && Math.abs(randomY - currentY) < 50);
                 
                 noBtn.style.left = randomX + 'px';
                 noBtn.style.top = randomY + 'px';
@@ -234,6 +250,29 @@ else:
                 textIndex = (textIndex + 1) % funnyTexts.length;
                 noBtn.innerText = funnyTexts[textIndex];
             }}
+
+            detectionArea.addEventListener('mousemove', function(e) {{
+                const btnRect = noBtn.getBoundingClientRect();
+                
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                const btnCenterX = btnRect.left + btnRect.width / 2;
+                const btnCenterY = btnRect.top + btnRect.height / 2;
+                
+                const distance = Math.sqrt(Math.pow(mouseX - btnCenterX, 2) + Math.pow(mouseY - btnCenterY, 2));
+                
+                const proximityThreshold = 80; 
+
+                if (distance < proximityThreshold) {{
+                    moveButton();
+                }}
+            }});
+
+            noBtn.addEventListener('touchstart', function(e) {{
+                e.preventDefault(); 
+                moveButton();
+            }});
 
             function sayYes() {{
                 document.getElementById('main-card').style.display = 'none';
