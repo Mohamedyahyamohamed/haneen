@@ -3,7 +3,7 @@ import base64
 import os
 
 # --- إعدادات الصفحة ---
-st.set_page_config(page_title="سؤال من القلب ❤️", page_icon="💍", layout="centered")
+st.set_page_config(page_title="طلب من القلب 👶", page_icon="🍼", layout="centered")
 
 # --- دالة لتحويل الصورة ---
 def get_image_as_base64(file_path):
@@ -42,7 +42,7 @@ else:
             
             body {{
                 font-family: 'Tajawal', sans-serif;
-                background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+                background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
                 margin: 0;
                 padding: 0;
                 text-align: center;
@@ -67,7 +67,7 @@ else:
                 background: rgba(255, 255, 255, 0.9);
                 padding: 40px 20px;
                 border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+                box-shadow: 0 10px 30px rgba(33, 150, 243, 0.2);
                 max-width: 500px;
                 margin: 60px auto;
                 position: relative;
@@ -77,7 +77,7 @@ else:
 
             .question-title {{
                 font-size: 30px;
-                color: #d81b60;
+                color: #1976d2;
                 margin-bottom: 10px;
                 font-weight: 900;
             }}
@@ -139,7 +139,7 @@ else:
                 background: rgba(255, 255, 255, 0.95);
                 padding: 30px;
                 border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+                box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
                 max-width: 500px;
                 margin: 20px auto;
                 animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -153,12 +153,12 @@ else:
                 border-radius: 15px;
                 box-shadow: 0 8px 16px rgba(0,0,0,0.2);
                 margin-top: 20px;
-                border: 5px solid #ff9a9e;
+                border: 5px solid #a1c4fd;
             }}
 
             .love-text {{
                 font-size: 32px;
-                color: #d81b60;
+                color: #1976d2;
                 margin-top: 10px;
                 font-weight: 900;
             }}
@@ -170,25 +170,25 @@ else:
         </style>
     </head>
     <body>
-        <div class="heart-bg" style="left: 10%; animation-duration: 3s;">❤️</div>
-        <div class="heart-bg" style="left: 30%; animation-duration: 5s;">💖</div>
+        <div class="heart-bg" style="left: 10%; animation-duration: 3s;">👶</div>
+        <div class="heart-bg" style="left: 30%; animation-duration: 5s;">🍼</div>
         <div class="heart-bg" style="left: 50%; animation-duration: 4s;">✨</div>
-        <div class="heart-bg" style="left: 70%; animation-duration: 6s;">💍</div>
-        <div class="heart-bg" style="left: 90%; animation-duration: 3.5s;">💕</div>
+        <div class="heart-bg" style="left: 70%; animation-duration: 6s;">🧸</div>
+        <div class="heart-bg" style="left: 90%; animation-duration: 3.5s;">💙</div>
 
         <div id="main-card">
-            <div class="question-title">أنا عندي سؤال مهم جداً...</div>
-            <div class="question-subtitle">تتجوزيني وتكملي معايا الباقي من عمري؟ 💍❤️</div>
+            <div class="question-title">أنا عندي طلب صغنون خالص...</div>
+            <div class="question-subtitle">إيه رأيك نتجنن ونجيب عيل خامس؟ يكمل العزوة 👶🍼❤️</div>
             
             <div class="buttons-area" id="detection-area">
-                <button class="btn" id="btn-yes" onclick="sayYes()">أيوة طبعاً!</button>
-                <button class="btn" id="btn-no">الللأ</button>
+                <button class="btn" id="btn-yes" onclick="sayYes()">أيوة طبعاً يلا بينا!</button>
+                <button class="btn" id="btn-no">لأ مستحيل</button>
             </div>
         </div>
 
         <div id="success-container">
-            <div class="love-text">بحبك يا أحلى حاجة في حياتي! ❤️</div>
-            <div style="font-size: 18px; color: #555;"> ربنا يخليكي ليا وميحرمنيش منك أبداً يحبيبي يارب </div>
+            <div class="love-text">أيوة بقى هي دي الأخبار الحلوة! 👶🎉</div>
+            <div style="font-size: 18px; color: #555;"> ربنا يبارك في الأربعة ونجيب الخامس ينور حياتنا.. بحبك يا أم العيال! ❤️ </div>
             <img src="data:image/jpeg;base64,{img_base64}" alt="صورتنا الحلوة">
         </div>
 
@@ -196,31 +196,31 @@ else:
             const noBtn = document.getElementById('btn-no');
             const detectionArea = document.getElementById('detection-area');
             
-            // 👇 لستة الجمل الكوميدية الجديدة
+            // 👇 لستة الجمل الكوميدية المتعدلة
             const funnyTexts = [
-                'لأ', 
-                'متهزريش!', 
-                'فكرى تاني!', 
-                'يا بنتي قولي أيوة ونخلص', 
-                'مفيش هروب على فكرة',
+                'لأ مستحيل', 
+                'دول 4 يا مفترى!', 
+                'العيال محتاجين أخ', 
+                'يا بنتي الخامس ده بيبقى كيوت', 
+                'عزوة يا ستي عزوة',
                 'عناد بعناد بقى', 
                 'طب بصي في عيني كده؟', 
-                'وربنا ما هسيبك', 
-                'كده؟ طب مفيش شاورما', 
-                'صوابعك هتوجعك',
+                'وربنا لنجيبه', 
+                'أربعة مش كفاية', 
+                'صوابعك هتوجعك من الجري',
                 'الماوس بيشتكي منك ارحميه',
                 'أنا وراكي والزمن طويل',
-                'ده أنا حتى كيوت',
-                'هجيبلك شوكولاتة طيب؟',
+                'ده أنا حتى أب كيوت',
+                'هجيبلك شاورما وشوكولاتة طيب؟',
                 'بقولك إيه.. أيوة يعني أيوة',
-                'يا ستي اتهدي بقى',
+                'يا ستي اتهدي بقى ووافقي',
                 'مفيش زرار هنا روحي هناك',
                 'طب هعيط أنا دلوقتي',
                 'عاجبك الماوس وهو بيجري؟',
                 'هتروحي مني فين؟',
                 'خلاص بقى خليكي عاقلة',
                 'دوسى الأخضر وريحي نفسك',
-                'أنا صبور جداً عادي',
+                'الخامس بييجي برزقه',
                 'يا بختي بعنادك',
                 'برضه مش هتدوسي!'
             ];
@@ -280,7 +280,7 @@ else:
                 
                 for(let i=0; i<15; i++) {{
                     let heart = document.createElement('div');
-                    heart.innerHTML = (i % 2 === 0) ? '🎉' : '❤️';
+                    heart.innerHTML = (i % 2 === 0) ? '🎉' : '👶';
                     heart.className = 'heart-bg';
                     heart.style.left = Math.random() * 100 + '%';
                     heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
