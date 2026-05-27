@@ -100,9 +100,11 @@ if start_animation:
     
     st.write("<br>", unsafe_allow_html=True)
     
-    # عرض الصورة (لازم تحط صورتكم وتسميها photo.jpg)
+    # عرض الصورة 
     try:
-        # لو رفعت صورة اسمها photo.jpg هتتعرض هنا
-        st.image("photo.jpg", use_container_width=True)
+        # عرض الصورة المرفوعة
+        st.image("pic.jpeg", use_container_width=True)
     except:
-        st.info("عشان تكمل الفرحة: ارفع صورتكم في نفس المكان على GitHub وسميها photo.jpg وهي هتظهر هنا مكان الرسالة دي ✨")
+        st.info("عشان تكمل الفرحة: اتأكد إن صورتكم مرفوعة في نفس المكان على GitHub واسمها pic.jpeg بالظبط ✨")
+
+
