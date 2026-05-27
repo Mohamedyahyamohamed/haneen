@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import time
 
@@ -78,11 +77,7 @@ if st.button("شوف إيه اللي حصل لقلبنا ❤️", use_container_
         st.markdown("<h3 style='text-align: center;'>وفي النهاية، دي النتيجة الحلوة بتاعتنا 👇</h3>", unsafe_allow_html=True)
         
         # عرض صورتكم (يجب تغيير الرابط بمسار الصورة الحقيقية)
-        # تقدر تحط مسار صورة من جهازك زي: "my_photo.jpg" 
-        image_path = "https://via.placeholder.com/800x500.png?text=%D8%B5%D9%88%D8%B1%D8%AA%D9%86%D8%A7+%D9%85%D8%B9+%D8%A8%D8%B9%D8%B6+%D9%87%D9%86%D8%A7" 
+        image_path = "[https://via.placeholder.com/800x500.png?text=%D8%B5%D9%88%D8%B1%D8%AA%D9%86%D8%A7+%D9%85%D8%B9+%D8%A8%D8%B9%D8%B6+%D9%87%D9%86%D8%A7](https://via.placeholder.com/800x500.png?text=%D8%B5%D9%88%D8%B1%D8%AA%D9%86%D8%A7+%D9%85%D8%B9+%D8%A8%D8%B9%D8%B6+%D9%87%D9%86%D8%A7)" 
         
         st.image(image_path, caption="أنا وأنت ضد الدنيا ❤️", use_container_width=True)
-        
-        st.info("💡 عشان تظهر صورتكم الحقيقية: افتح الكود، وامسح الرابط اللي في متغير `image_path` واكتب مكانه اسم صورتكم (مثلاً 'our_pic.jpg') وحط الصورة في نفس الفولدر اللي فيه الكود.")
 
-```
