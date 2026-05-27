@@ -1,295 +1,88 @@
-Import streamlit as st
-import base64
-import os
+```python
+import streamlit as st
+import time
 
-# --- إعدادات الصفحة ---
-st.set_page_config(page_title="سؤال من القلب ❤️", page_icon="💍", layout="centered")
+# إعدادات الصفحة
+st.set_page_config(page_title="رحلة قلبنا", page_icon="💖", layout="centered")
 
-# --- دالة لتحويل الصورة ---
-def get_image_as_base64(file_path):
-    try:
-        with open(file_path, "rb") as f:
-            data = f.read()
-        return base64.b64encode(data).decode()
-    except Exception as e:
-        return None
+# إضافة ستايل بسيط باستخدام CSS
+st.markdown("""
+    <style>
+    .big-font {
+        font-size:30px !important;
+        font-weight: bold;
+        text-align: center;
+        color: #ff4b4b;
+    }
+    .heart-icon {
+        font-size: 80px !important;
+        text-align: center;
+        animation: pulse 1s infinite;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
+st.markdown('<p class="big-font">رحلة قلبنا: من التحديات للصلابة 💎</p>', unsafe_allow_html=True)
+st.write("---")
 
-# الكود هيبحث بنفسه عن أي ملف صورته اسمه pic بغض النظر عن امتداده
-image_path = None
-for file in os.listdir(current_dir):
-    if "pic" in file.lower() and file.lower().endswith(('.jpg', '.jpeg', '.png')):
-        image_path = os.path.join(current_dir, file)
-        break
+st.write("### حدد التحديات اللي مرينا بيها:")
 
-if image_path:
-    img_base64 = get_image_as_base64(image_path)
-else:
-    img_base64 = None
+# تقسيم الشاشة لعمودين عشان شكل المدخلات يكون أحلى
+col1, col2 = st.columns(2)
 
-if img_base64 is None:
-    st.error(f"⚠️ مفيش أي صورة اسمها pic خالص في الفولدر ده: {current_dir}")
-else:
-    # --- كود HTML و CSS و JS ---
-    html_code = f"""
-    <!DOCTYPE html>
-    <html lang="ar" dir="rtl">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&display=swap');
+with col1:
+    problems = st.number_input("عدد المشاكل 🌪️", min_value=0, max_value=1000, value=10)
+
+with col2:
+    fights = st.number_input("عدد الخناقات 🥊", min_value=0, max_value=1000, value=5)
+
+st.write("---")
+
+# الزرار اللي بيبدأ الرحلة
+if st.button("شوف إيه اللي حصل لقلبنا ❤️", use_container_width=True):
+    total_hardships = problems + fights
+    
+    if total_hardships == 0:
+        st.warning("حياتكم هادية جداً! مفيش تحديات تقوي القلب لسه 😂")
+    else:
+        # شريط التحميل للمحاكاة
+        progress_text = "بنعالج المشاكل وبنعدي الخناقات..."
+        my_bar = st.progress(0, text=progress_text)
+        
+        # مكان فاضي هنغير فيه شكل القلب
+        heart_placeholder = st.empty()
+        
+        # محاكاة مرور الوقت وتأثير المشاكل على القلب
+        for percent_complete in range(100):
+            time.sleep(0.04) # للتحكم في سرعة التحميل
+            my_bar.progress(percent_complete + 1, text=progress_text)
             
-            body {{
-                font-family: 'Tajawal', sans-serif;
-                background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-                margin: 0;
-                padding: 0;
-                text-align: center;
-                overflow: hidden;
-                border-radius: 20px;
-                height: 100vh;
-            }}
-            
-            .heart-bg {{
-                position: absolute;
-                font-size: 24px;
-                color: rgba(255, 255, 255, 0.6);
-                animation: float 4s ease-in infinite;
-                z-index: 0;
-            }}
-            @keyframes float {{
-                0% {{ transform: translateY(100vh) scale(0); opacity: 1; }}
-                100% {{ transform: translateY(-10vh) scale(1.5); opacity: 0; }}
-            }}
+            # تغيير شكل القلب بناءً على التقدم (مرحلة الصلابة)
+            if percent_complete < 25:
+                heart_placeholder.markdown('<div class="heart-icon">💔</div>', unsafe_allow_html=True)
+            elif percent_complete < 50:
+                heart_placeholder.markdown('<div class="heart-icon">❤️‍🩹</div>', unsafe_allow_html=True)
+            elif percent_complete < 75:
+                heart_placeholder.markdown('<div class="heart-icon">❤️</div>', unsafe_allow_html=True)
+            else:
+                heart_placeholder.markdown('<div class="heart-icon">💎</div>', unsafe_allow_html=True)
+        
+        # إخفاء شريط التحميل والقلب المتحرك بعد الانتهاء
+        my_bar.empty()
+        heart_placeholder.empty()
+        
+        # رسالة النجاح
+        st.success(f"بعد {problems} مشكلة و {fights} خناقة.. قلبنا مبقاش مجرد قلب، ده بقى أصلب من الألماس ومفيش حاجة تكسره! 💎")
+        st.balloons() # تأثير احتفالي لطيف
+        
+        st.markdown("<h3 style='text-align: center;'>وفي النهاية، دي النتيجة الحلوة بتاعتنا 👇</h3>", unsafe_allow_html=True)
+        
+        # عرض صورتكم (يجب تغيير الرابط بمسار الصورة الحقيقية)
+        # تقدر تحط مسار صورة من جهازك زي: "my_photo.jpg" 
+        image_path = "https://via.placeholder.com/800x500.png?text=%D8%B5%D9%88%D8%B1%D8%AA%D9%86%D8%A7+%D9%85%D8%B9+%D8%A8%D8%B9%D8%B6+%D9%87%D9%86%D8%A7" 
+        
+        st.image(image_path, caption="أنا وأنت ضد الدنيا ❤️", use_container_width=True)
+        
+        st.info("💡 عشان تظهر صورتكم الحقيقية: افتح الكود، وامسح الرابط اللي في متغير `image_path` واكتب مكانه اسم صورتكم (مثلاً 'our_pic.jpg') وحط الصورة في نفس الفولدر اللي فيه الكود.")
 
-            #main-card {{
-                background: rgba(255, 255, 255, 0.9);
-                padding: 40px 20px;
-                border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
-                max-width: 500px;
-                margin: 60px auto;
-                position: relative;
-                z-index: 10;
-                height: 400px;
-            }}
-
-            .question-title {{
-                font-size: 30px;
-                color: #d81b60;
-                margin-bottom: 10px;
-                font-weight: 900;
-            }}
-            
-            .question-subtitle {{
-                font-size: 20px;
-                color: #555;
-                margin-bottom: 40px;
-                font-weight: 700;
-            }}
-
-            .buttons-area {{
-                position: relative;
-                width: 100%;
-                height: 250px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }}
-
-            .btn {{
-                font-family: 'Tajawal', sans-serif;
-                font-size: 20px;
-                padding: 12px 30px;
-                border: none;
-                border-radius: 50px;
-                cursor: pointer;
-                font-weight: bold;
-                color: white;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                transition: background 0.3s ease, transform 0.1s ease, left 0.2s ease, top 0.2s ease;
-                white-space: nowrap;
-            }}
-
-            #btn-yes {{
-                background: linear-gradient(45deg, #4CAF50, #81C784);
-                margin-left: 20px;
-                z-index: 20;
-                position: relative;
-            }}
-
-            #btn-yes:hover {{
-                transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-            }}
-
-            #btn-no {{
-                background: linear-gradient(45deg, #f44336, #e57373);
-                position: absolute;
-                left: 60%;
-                top: 40%;
-                z-index: 20;
-                transition: background 0.3s ease; 
-            }}
-
-            #success-container {{
-                display: none;
-                text-align: center;
-                background: rgba(255, 255, 255, 0.95);
-                padding: 30px;
-                border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
-                max-width: 500px;
-                margin: 20px auto;
-                animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                position: relative;
-                z-index: 10;
-            }}
-
-            #success-container img {{
-                max-width: 90%;
-                max-height: 350px;
-                border-radius: 15px;
-                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-                margin-top: 20px;
-                border: 5px solid #ff9a9e;
-            }}
-
-            .love-text {{
-                font-size: 32px;
-                color: #d81b60;
-                margin-top: 10px;
-                font-weight: 900;
-            }}
-
-            @keyframes popIn {{
-                0% {{ transform: scale(0.5); opacity: 0; }}
-                100% {{ transform: scale(1); opacity: 1; }}
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="heart-bg" style="left: 10%; animation-duration: 3s;">❤️</div>
-        <div class="heart-bg" style="left: 30%; animation-duration: 5s;">💖</div>
-        <div class="heart-bg" style="left: 50%; animation-duration: 4s;">✨</div>
-        <div class="heart-bg" style="left: 70%; animation-duration: 6s;">💍</div>
-        <div class="heart-bg" style="left: 90%; animation-duration: 3.5s;">💕</div>
-
-        <div id="main-card">
-            <div class="question-title">أنا عندي سؤال مهم جداً...</div>
-            <div class="question-subtitle">تتجوزيني وتكملي معايا الباقي من عمري؟ 💍❤️</div>
-            
-            <div class="buttons-area" id="detection-area">
-                <button class="btn" id="btn-yes" onclick="sayYes()">أيوة طبعاً!</button>
-                <button class="btn" id="btn-no">الللأ</button>
-            </div>
-        </div>
-
-        <div id="success-container">
-            <div class="love-text">بحبك يا أحلى حاجة في حياتي! ❤️</div>
-            <div style="font-size: 18px; color: #555;"> ربنا يخليكي ليا وميحرمنيش منك أبداً يحبيبي يارب </div>
-            <img src="data:image/jpeg;base64,{img_base64}" alt="صورتنا الحلوة">
-        </div>
-
-        <script>
-            const noBtn = document.getElementById('btn-no');
-            const detectionArea = document.getElementById('detection-area');
-            
-            // 👇 لستة الجمل الكوميدية الجديدة
-            const funnyTexts = [
-                'لأ', 
-                'متهزريش!', 
-                'فكرى تاني!', 
-                'يا بنتي قولي أيوة ونخلص', 
-                'مفيش هروب على فكرة',
-                'عناد بعناد بقى', 
-                'طب بصي في عيني كده؟', 
-                'وربنا ما هسيبك', 
-                'كده؟ طب مفيش شاورما', 
-                'صوابعك هتوجعك',
-                'الماوس بيشتكي منك ارحميه',
-                'أنا وراكي والزمن طويل',
-                'ده أنا حتى كيوت',
-                'هجيبلك شوكولاتة طيب؟',
-                'بقولك إيه.. أيوة يعني أيوة',
-                'يا ستي اتهدي بقى',
-                'مفيش زرار هنا روحي هناك',
-                'طب هعيط أنا دلوقتي',
-                'عاجبك الماوس وهو بيجري؟',
-                'هتروحي مني فين؟',
-                'خلاص بقى خليكي عاقلة',
-                'دوسى الأخضر وريحي نفسك',
-                'أنا صبور جداً عادي',
-                'يا بختي بعنادك',
-                'برضه مش هتدوسي!'
-            ];
-            let textIndex = 0;
-
-            function moveButton() {{
-                const areaRect = detectionArea.getBoundingClientRect();
-                
-                const btnWidth = noBtn.offsetWidth;
-                const btnHeight = noBtn.offsetHeight;
-
-                const maxX = areaRect.width - btnWidth;
-                const maxY = areaRect.height - btnHeight;
-                
-                let randomX, randomY;
-                const currentX = parseFloat(noBtn.style.left) || (areaRect.width * 0.6);
-                const currentY = parseFloat(noBtn.style.top) || (areaRect.height * 0.4);
-
-                do {{
-                    randomX = Math.floor(Math.random() * maxX);
-                    randomY = Math.floor(Math.random() * maxY);
-                }} while (Math.abs(randomX - currentX) < 100 && Math.abs(randomY - currentY) < 50);
-                
-                noBtn.style.left = randomX + 'px';
-                noBtn.style.top = randomY + 'px';
-                
-                textIndex = (textIndex + 1) % funnyTexts.length;
-                noBtn.innerText = funnyTexts[textIndex];
-            }}
-
-            detectionArea.addEventListener('mousemove', function(e) {{
-                const btnRect = noBtn.getBoundingClientRect();
-                
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-                
-                const btnCenterX = btnRect.left + btnRect.width / 2;
-                const btnCenterY = btnRect.top + btnRect.height / 2;
-                
-                const distance = Math.sqrt(Math.pow(mouseX - btnCenterX, 2) + Math.pow(mouseY - btnCenterY, 2));
-                
-                const proximityThreshold = 80; 
-
-                if (distance < proximityThreshold) {{
-                    moveButton();
-                }}
-            }});
-
-            noBtn.addEventListener('touchstart', function(e) {{
-                e.preventDefault(); 
-                moveButton();
-            }});
-
-            function sayYes() {{
-                document.getElementById('main-card').style.display = 'none';
-                document.getElementById('success-container').style.display = 'block';
-                
-                for(let i=0; i<15; i++) {{
-                    let heart = document.createElement('div');
-                    heart.innerHTML = (i % 2 === 0) ? '🎉' : '❤️';
-                    heart.className = 'heart-bg';
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                    document.body.appendChild(heart);
-                }}
-            }}
-        </script>
-    </body>
-    </html>
-    """
-
-    st.components.v1.html(html_code, height=750)  عايز اخلي دا نجيب عيل خامس  
+```
